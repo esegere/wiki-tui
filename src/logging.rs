@@ -7,7 +7,7 @@ impl Logger {
 
         let wiki_tui = FileAppender::builder()
             .append(false)
-            .build("wiki_tui.log")
+            .build("/var/log/wiki-tui/wiki_tui.log")
             .unwrap();
 
         let default_config = Config::builder()

@@ -4,6 +4,7 @@ extern crate anyhow;
 extern crate ini;
 extern crate lazy_static;
 
+use std::env;
 use anyhow::*;
 use cursive::align::HAlign;
 use cursive::theme::*;
@@ -32,6 +33,9 @@ fn main() {
 
     // Create the wiki struct, used for interaction with the wikipedia website/api
     let wiki = wiki::WikiApi::new();
+
+    // Extract CLI args for query
+    let cli_query = env::args().skip(1).collect::<Vec<String>>().join(" ");
 
     let mut siv = cursive::default();
     siv.add_global_callback('q', Cursive::quit);
@@ -74,6 +78,11 @@ fn main() {
         .button("Quit", Cursive::quit)
         .full_screen(),
     );
+
+    //launch search dialog when cli has arguments
+    if cli_query != "" {
+        on_search(&mut siv, cli_query);
+    }
 
     // Start the application
     siv.run();
